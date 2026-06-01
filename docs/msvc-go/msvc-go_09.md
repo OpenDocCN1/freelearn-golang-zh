@@ -502,65 +502,20 @@ go test
 
     ```go
     package main
-    ```
-
-    ```go
     import (
-    ```
-
-    ```go
         "context"
-    ```
-
-    ```go
         "log"
-    ```
-
-    ```go
         "net"
-    ```
-
-    ```go
         "github.com/google/go-cmp/cmp"
-    ```
-
-    ```go
         "github.com/google/go-cmp/cmp/cmpopts"
-    ```
-
-    ```go
         "google.golang.org/grpc"
-    ```
-
-    ```go
         "movieexample.com/gen"
-    ```
-
-    ```go
         metadatatest "movieexample.com/metadata/pkg/testutil"
-    ```
-
-    ```go
         movietest "movieexample.com/movie/pkg/testutil"
-    ```
-
-    ```go
         "movieexample.com/pkg/discovery"
-    ```
-
-    ```go
         "movieexample.com/pkg/discovery/memory"
-    ```
-
-    ```go
         ratingtest "movieexample.com/rating/pkg/testutil"
-    ```
-
-    ```go
         "google.golang.org/grpc/credentials/insecure"
-    ```
-
-    ```go
     )
     ```
 
@@ -568,33 +523,12 @@ go test
 
     ```go
     const (
-    ```
-
-    ```go
         metadataServiceName = "metadata"
-    ```
-
-    ```go
         ratingServiceName   = "rating"
-    ```
-
-    ```go
         movieServiceName    = "movie"
-    ```
-
-    ```go
         metadataServiceAddr = "localhost:8081"
-    ```
-
-    ```go
         ratingServiceAddr   = "localhost:8082"
-    ```
-
-    ```go
         movieServiceAddr    = "localhost:8083"
-    ```
-
-    ```go
     )
     ```
 
@@ -602,45 +536,15 @@ go test
 
     ```go
     func main() {
-    ```
-
-    ```go
         log.Println("Starting the integration test")
-    ```
-
-    ```go
         ctx := context.Background()
-    ```
-
-    ```go
         registry := memory.NewRegistry()
-    ```
-
-    ```go
         log.Println("Setting up service handlers and clients")
-    ```
-
-    ```go
         metadataSrv := startMetadataService(ctx, registry)
-    ```
-
-    ```go
         defer metadataSrv.GracefulStop()
-    ```
-
-    ```go
         ratingSrv := startRatingService(ctx, registry)
-    ```
-
-    ```go
         defer ratingSrv.GracefulStop()
-    ```
-
-    ```go
         movieSrv := startMovieService(ctx, registry)
-    ```
-
-    ```go
         defer movieSrv.GracefulStop()
     ```
 
@@ -650,77 +554,23 @@ go test
 
     ```go
         opts := grpc.WithTransportCredentials(insecure.NewCredentials())
-    ```
-
-    ```go
         metadataConn, err := grpc.Dial(metadataServiceAddr, opts)
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         defer metadataConn.Close()
-    ```
-
-    ```go
         metadataClient := gen.NewMetadataServiceClient(metadataConn)
-    ```
-
-    ```go
         ratingConn, err := grpc.Dial(ratingServiceAddr, opts)
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         defer ratingConn.Close()
-    ```
-
-    ```go
         ratingClient := gen.NewRatingServiceClient(ratingConn)
-    ```
-
-    ```go
         movieConn, err := grpc.Dial(movieServiceAddr, opts)
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         defer movieConn.Close()
-    ```
-
-    ```go
         movieClient := gen.NewMovieServiceClient(movieConn)
     ```
 

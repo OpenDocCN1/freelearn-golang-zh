@@ -287,101 +287,29 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
     package memory
-    ```
-
-    ```go
     import (
-    ```
-
-    ```go
         "context"
-    ```
-
-    ```go
         "errors"
-    ```
-
-    ```go
         "net"
-    ```
-
-    ```go
         "sync"
-    ```
-
-    ```go
         "time"
-    ```
-
-    ```go
         "movieexample.com/pkg/discovery"
-    ```
-
-    ```go
     )
-    ```
-
-    ```go
     type serviceName string
-    ```
-
-    ```go
     type instanceID string
-    ```
-
-    ```go
     // Registry defines an in-memory service registry.
-    ```
-
-    ```go
     type Registry struct {
-    ```
-
-    ```go
         sync.RWMutex
-    ```
-
-    ```go
         serviceAddrs map[serviceName]map[instanceID]*serviceInstance
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     type serviceInstance struct {
-    ```
-
-    ```go
         hostPort   string
-    ```
-
-    ```go
         lastActive time.Time
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     // NewRegistry creates a new in-memory service
-    ```
-
-    ```go
     // registry instance.
-    ```
-
-    ```go
     func NewRegistry() *Registry {
-    ```
-
-    ```go
         return &Registry{serviceAddrs: map[serviceName]map[instanceID]*serviceInstance{}}
-    ```
-
-    ```go
     }
     ```
 
@@ -389,85 +317,25 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
     // Register creates a service record in the registry.
-    ```
-
-    ```go
     func (r *Registry) Register(ctx context.Context, instanceID string, serviceName string, hostPort string) error {
-    ```
-
-    ```go
         r.Lock()
-    ```
-
-    ```go
         defer r.Unlock()
-    ```
-
-    ```go
         if _, ok := r.serviceAddrs[serviceName]; !ok {
-    ```
-
-    ```go
             r.serviceAddrs[serviceName] = map[string]*serviceInstance{}
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         r.serviceAddrs[serviceName][instanceID] = &serviceInstance{hostPort: hostPort, lastActive: time.Now()}
-    ```
-
-    ```go
         return nil
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     // Deregister removes a service record from the
-    ```
-
-    ```go
     // registry.
-    ```
-
-    ```go
     func (r *Registry) Deregister(ctx context.Context, instanceID string, serviceName string) error {
-    ```
-
-    ```go
         r.Lock()
-    ```
-
-    ```go
         defer r.Unlock()
-    ```
-
-    ```go
         if _, ok := r.serviceAddrs[serviceName]; !ok {
-    ```
-
-    ```go
             return nil
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         delete(r.serviceAddrs[serviceName], instanceID)
-    ```
-
-    ```go
         return nil
-    ```
-
-    ```go
     }
     ```
 
@@ -475,125 +343,35 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
     // ReportHealthyState is a push mechanism for
-    ```
-
-    ```go
     // reporting healthy state to the registry.
-    ```
-
-    ```go
     func (r *Registry) ReportHealthyState(instanceID string, serviceName string) error {
-    ```
-
-    ```go
         r.Lock()
-    ```
-
-    ```go
         defer r.Unlock()
-    ```
-
-    ```go
         if _, ok := r.serviceAddrs[serviceName]; !ok {
-    ```
-
-    ```go
             return errors.New("service is not registered yet")
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         if _, ok := r.serviceAddrs[serviceName][instanceID]; !ok {
-    ```
-
-    ```go
             return errors.New("service instance is not registered yet")
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         r.serviceAddrs[serviceName][instanceID].lastActive = time.Now()
-    ```
-
-    ```go
         return nil
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     // ServiceAddresses returns the list of addresses of
-    ```
-
-    ```go
     // active instances of the given service.
-    ```
-
-    ```go
     func (r *Registry) ServiceAddresses(ctx context.Context, serviceName string) ([]string, error) {
-    ```
-
-    ```go
         r.RLock()
-    ```
-
-    ```go
         defer r.RUnlock()
-    ```
-
-    ```go
         if len(r.serviceAddrs[serviceName]) == 0 {
-    ```
-
-    ```go
             return nil, discovery.ErrNotFound
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         var res []string
-    ```
-
-    ```go
         for _, i := range r.serviceAddrs[serviceName] {
-    ```
-
-    ```go
             if i.lastActive.Before(time.Now().Add(-5 * time.Second)) {
-    ```
-
-    ```go
                 continue
-    ```
-
-    ```go
             }
-    ```
-
-    ```go
             res = append(res, i.hostPort)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         return res, nil
-    ```
-
-    ```go
     }
     ```
 
@@ -609,101 +387,29 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
      package consul
-    ```
-
-    ```go
     import (
-    ```
-
-    ```go
         "context"
-    ```
-
-    ```go
         "errors"
-    ```
-
-    ```go
         "fmt"
-    ```
-
-    ```go
         "strconv"
-    ```
-
-    ```go
         "strings"
-    ```
-
-    ```go
         consul "github.com/hashicorp/consul/api"
-    ```
-
-    ```go
         "movieexample.com/pkg/discovery"
-    ```
-
-    ```go
     )
-    ```
-
-    ```go
     // Registry defines a Consul-based service regisry.
-    ```
-
-    ```go
     type Registry struct {
-    ```
-
-    ```go
         client *consul.Client
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     // NewRegistry creates a new Consul-based service
-    ```
-
-    ```go
     // registry instance.
-    ```
-
-    ```go
     func NewRegistry(addr string) (*Registry, error) {
-    ```
-
-    ```go
         config := consul.DefaultConfig()
-    ```
-
-    ```go
         config.Address = addr
-    ```
-
-    ```go
         client, err := consul.NewClient(config)
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             return nil, err
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         return &Registry{client: client}, nil
-    ```
-
-    ```go
     }
     ```
 
@@ -711,93 +417,27 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
      // Register creates a service record in the registry.
-    ```
-
-    ```go
     func (r *Registry) Register(ctx context.Context, instanceID string, serviceName string, hostPort string) error {
-    ```
-
-    ```go
         parts := strings.Split(hostPort, ":")
-    ```
-
-    ```go
         if len(parts) != 2 {
-    ```
-
-    ```go
             return errors.New("hostPort must be in a form of <host>:<port>, example: localhost:8081")
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         port, err := strconv.Atoi(parts[1])
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             return err
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         return r.client.Agent().ServiceRegister(&consul.AgentServiceRegistration{
-    ```
-
-    ```go
             Address: parts[0],
-    ```
-
-    ```go
             ID:      instanceID,
-    ```
-
-    ```go
             Name:    serviceName,
-    ```
-
-    ```go
             Port:    port,
-    ```
-
-    ```go
             Check:   &consul.AgentServiceCheck{CheckID: instanceID, TTL: "5s"},
-    ```
-
-    ```go
         })
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     // Deregister removes a service record from the
-    ```
-
-    ```go
     // registry.
-    ```
-
-    ```go
     func (r *Registry) Deregister(ctx context.Context, instanceID string, _ string) error {
-    ```
-
-    ```go
         return r.client.Agent().ServiceDeregister(instanceID)
-    ```
-
-    ```go
     }
     ```
 
@@ -805,81 +445,24 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
     // ServiceAddresses returns the list of addresses of
-    ```
-
-    ```go
     // active instances of the given service.
-    ```
-
-    ```go
     func (r *Registry) ServiceAddresses(ctx context.Context, serviceName string) ([]string, error) {
-    ```
-
-    ```go
         entries, _, err := r.client.Health().Service(serviceName, "", true, nil)
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             return nil, err
-    ```
-
-    ```go
         } else if len(entries) == 0 {
-    ```
-
-    ```go
             return nil, discovery.ErrNotFound
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         var res []string
-    ```
-
-    ```go
         for _, e := range entries {
-    ```
-
-    ```go
             res = append(res, res = append(res, fmt.Sprintf("%s:%d", e.Service.Address, e.Service.Port)))
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         return res, nil
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     // ReportHealthyState is a push mechanism for
-    ```
-
-    ```go
     // reporting healthy state to the registry.
-    ```
-
-    ```go
     func (r *Registry) ReportHealthyState(instanceID string, _ string) error {
-    ```
-
-    ```go
         return r.client.Agent().PassTTL(instanceID, "")
-    ```
-
-    ```go
     }
     ```
 
@@ -897,13 +480,7 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
     type Gateway struct {
-    ```
-
-    ```go
         registry discovery.Registry
-    ```
-
-    ```go
     }
     ```
 
@@ -911,13 +488,7 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
     func New(registry discovery.Registry) *Gateway {
-    ```
-
-    ```go
         return &Gateway{registry}
-    ```
-
-    ```go
     }
     ```
 
@@ -925,33 +496,12 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
     func (g *Gateway) Get(ctx context.Context, id string) (*model.Metadata, error) {
-    ```
-
-    ```go
         addrs, err := g.registry.ServiceAddresses(ctx, "metadata")
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             return nil, err
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         url := "http://" + addrs[rand.Intn(len(addrs))] + "/metadata"
-    ```
-
-    ```go
         log.Printf("Calling metadata service. Request: GET " + url)
-    ```
-
-    ```go
         req, err := http.NewRequest(http.MethodGet, url, nil)
     ```
 
@@ -963,129 +513,36 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
     const serviceName = "metadata"
-    ```
-
-    ```go
     func main() {
-    ```
-
-    ```go
         var port int
-    ```
-
-    ```go
         flag.IntVar(&port, "port", 8081, "API handler port")
-    ```
-
-    ```go
         flag.Parse()
-    ```
-
-    ```go
         log.Printf("Starting the metadata service on port %d", port)
-    ```
-
-    ```go
         registry, err := consul.NewRegistry("localhost:8500")
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         ctx := context.Background()
-    ```
-
-    ```go
         instanceID := discovery.GenerateInstanceID(serviceName)
-    ```
-
-    ```go
         if err := registry.Register(ctx, instanceID, serviceName, fmt.Sprintf("localhost:%d", port)); err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         go func() {
-    ```
-
-    ```go
             for {
-    ```
-
-    ```go
                 if err := registry.ReportHealthyState(instanceID, serviceName); err != nil {
-    ```
-
-    ```go
                     log.Println("Failed to report healthy state: " + err.Error())
-    ```
-
-    ```go
                 }
-    ```
-
-    ```go
                 time.Sleep(1 * time.Second)
-    ```
-
-    ```go
             }
-    ```
-
-    ```go
         }()
-    ```
-
-    ```go
         defer registry.Deregister(ctx, instanceID, serviceName)
-    ```
-
-    ```go
         repo := memory.New()
-    ```
-
-    ```go
         svc := metadata.New(repo)
-    ```
-
-    ```go
         h := httphandler.New(svc)
-    ```
-
-    ```go
         http.Handle("/metadata", http.HandlerFunc(h.GetMetadataByID))
-    ```
-
-    ```go
         if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
     }
     ```
 
@@ -1095,125 +552,35 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
     func main() {
-    ```
-
-    ```go
         var port int
-    ```
-
-    ```go
         flag.IntVar(&port, "port", 8082, "API handler port")
-    ```
-
-    ```go
         flag.Parse()
-    ```
-
-    ```go
         log.Printf("Starting the rating service on port %d", port)
-    ```
-
-    ```go
         registry, err := consul.NewRegistry("localhost:8500")
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         ctx := context.Background()
-    ```
-
-    ```go
         instanceID := discovery.GenerateInstanceID(serviceName)
-    ```
-
-    ```go
         if err := registry.Register(ctx, instanceID, serviceName, fmt.Sprintf("localhost:%d", port)); err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         go func() {
-    ```
-
-    ```go
             for {
-    ```
-
-    ```go
                 if err := registry.ReportHealthyState(instanceID, serviceName); err != nil {
-    ```
-
-    ```go
                     log.Println("Failed to report healthy state: " + err.Error())
-    ```
-
-    ```go
                 }
-    ```
-
-    ```go
                 time.Sleep(1 * time.Second)
-    ```
-
-    ```go
             }
-    ```
-
-    ```go
         }()
-    ```
-
-    ```go
         defer registry.Deregister(ctx, instanceID, serviceName)
-    ```
-
-    ```go
         repo := memory.New()
-    ```
-
-    ```go
         svc := controller.New(repo)
-    ```
-
-    ```go
         h := httphandler.New(svc)
-    ```
-
-    ```go
         http.Handle("/rating", http.HandlerFunc(h.Handle))
-    ```
-
-    ```go
         if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
     }
     ```
 
@@ -1223,129 +590,36 @@ func GenerateInstanceID(serviceName string) string {
 
     ```go
      func main() {
-    ```
-
-    ```go
         var port int
-    ```
-
-    ```go
         flag.IntVar(&port, "port", 8083, "API handler port")
-    ```
-
-    ```go
         flag.Parse()
-    ```
-
-    ```go
         log.Printf("Starting the movie service on port %d", port)
-    ```
-
-    ```go
         registry, err := consul.NewRegistry("localhost:8500")
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         ctx := context.Background()
-    ```
-
-    ```go
         instanceID := discovery.GenerateInstanceID(serviceName)
-    ```
-
-    ```go
         if err := registry.Register(ctx, instanceID, serviceName, fmt.Sprintf("localhost:%d", port)); err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         go func() {
-    ```
-
-    ```go
             for {
-    ```
-
-    ```go
                 if err := registry.ReportHealthyState(instanceID, serviceName); err != nil {
-    ```
-
-    ```go
                     log.Println("Failed to report healthy state: " + err.Error())
-    ```
-
-    ```go
                 }
-    ```
-
-    ```go
                 time.Sleep(1 * time.Second)
-    ```
-
-    ```go
             }
-    ```
-
-    ```go
         }()
-    ```
-
-    ```go
         defer registry.Deregister(ctx, instanceID, serviceName)
-    ```
-
-    ```go
         metadataGateway := metadatagateway.New(registry)
-    ```
-
-    ```go
         ratingGateway := ratinggateway.New(registry)
-    ```
-
-    ```go
         svc := movie.New(ratingGateway, metadataGateway)
-    ```
-
-    ```go
         h := httphandler.New(svc)
-    ```
-
-    ```go
         http.Handle("/movie", http.HandlerFunc(h.GetMovieDetails))
-    ```
-
-    ```go
         if err := http.ListenAndServe(fmt.Sprintf(":%d", port), nil); err != nil {
-    ```
-
-    ```go
             panic(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
     }
     ```
 

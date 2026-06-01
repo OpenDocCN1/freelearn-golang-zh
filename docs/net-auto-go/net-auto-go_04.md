@@ -987,9 +987,6 @@ func main() {
 
     ```go
     ch04/http/client$ go run main.go -check
-    ```
-
-    ```go
     OK
     ```
 
@@ -997,9 +994,6 @@ func main() {
 
     ```go
     ch04/http/client$ go run main.go -lookup mac 68b5.99fc.d1df
-    ```
-
-    ```go
     Hewlett Packard
     ```
 
@@ -1007,41 +1001,14 @@ func main() {
 
     ```go
     ch04/http/client$ go run main.go -lookup domain tkng.io
-    ```
-
-    ```go
     Domain Name: tkng.io
-    ```
-
-    ```go
     Registry Domain ID: 5cdbf549b56144f5afe00b62ccd8d6e9-DONUTS
-    ```
-
-    ```go
     Registrar WHOIS Server: whois.namecheap.com
-    ```
-
-    ```go
     Registrar URL: https://www.namecheap.com/
-    ```
-
-    ```go
     Updated Date: 2021-09-24T20:39:04Z
-    ```
-
-    ```go
     Creation Date: 2021-07-26T19:08:34Z
-    ```
-
-    ```go
     Registry Expiry Date: 2022-07-26T19:08:34Z
-    ```
-
-    ```go
     Registrar: NameCheap, Inc.
-    ```
-
-    ```go
     Registrar IANA ID: 1068
     ```
 
@@ -1049,33 +1016,12 @@ func main() {
 
     ```go
     ch04/http/client$ go run main.go -lookup ip 1.1.1.1
-    ```
-
-    ```go
     ...
-    ```
-
-    ```go
     inetnum:        1.1.1.0 - 1.1.1.255
-    ```
-
-    ```go
     netname:        APNIC-LABS
-    ```
-
-    ```go
     descr:          APNIC and Cloudflare DNS Resolver project
-    ```
-
-    ```go
     descr:          Routed globally by AS13335/Cloudflare
-    ```
-
-    ```go
     descr:          Research prefix for APNIC Labs
-    ```
-
-    ```go
     country:        AU
     ```
 
@@ -1124,37 +1070,13 @@ type Handler interface {
 
     ```go
     type ResponseWriter interface {
-    ```
-
-    ```go
         Header() Header
-    ```
-
-    ```go
         // Write writes the data to the connection 
-    ```
-
-    ```go
         // as part of an HTTP reply.
-    ```
-
-    ```go
         Write([]byte) (int, error)
-    ```
-
-    ```go
         // WriteHeader sends an HTTP response header
-    ```
-
-    ```go
         // with the provided status code.
-    ```
-
-    ```go
         WriteHeader(statusCode int)
-    ```
-
-    ```go
     }
     ```
 
@@ -1162,49 +1084,16 @@ type Handler interface {
 
     ```go
     type Request struct {
-    ```
-
-    ```go
         // Method specifies the HTTP method
-    ```
-
-    ```go
         // (GET, POST, PUT, etc.).
-    ```
-
-    ```go
         Method string
-    ```
-
-    ```go
         // URL specifies either the URI being requested
-    ```
-
-    ```go
         // (for server requests) or the URL to access 
-    ```
-
-    ```go
         // (for client requests).
-    ```
-
-    ```go
         URL *url.URL
-    ```
-
-    ```go
         Header Header
-    ```
-
-    ```go
         Body io.ReadCloser
-    ```
-
-    ```go
         /* ... <omitted for brevity > ... */
-    ```
-
-    ```go
     }
     ```
 
@@ -1236,73 +1125,22 @@ func main() {
 
     ```go
     func lookup(w http.ResponseWriter, req *http.Request) {
-    ```
-
-    ```go
         log.Printf("Incoming %+v", req.URL.Query())
-    ```
-
-    ```go
         var response string
-    ```
-
-    ```go
         for k, v := range req.URL.Query() {
-    ```
-
-    ```go
             switch k {
-    ```
-
-    ```go
             case "ip":
-    ```
-
-    ```go
                 response = getWhois(v)
-    ```
-
-    ```go
             case "mac":
-    ```
-
-    ```go
                 response = getMAC(v)
-    ```
-
-    ```go
             case "domain":
-    ```
-
-    ```go
                 response = getWhois(v)
-    ```
-
-    ```go
             default:
-    ```
-
-    ```go
                 response = fmt.Sprintf(
-    ```
-
-    ```go
                             "query %q not recognized", k)
-    ```
-
-    ```go
             }
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         fmt.Fprintf(w, response)
-    ```
-
-    ```go
     }
     ```
 

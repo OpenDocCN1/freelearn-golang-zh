@@ -106,9 +106,6 @@ Go 代码注释的一般原则包括以下内容：
 
     ```go
     // ErrNotFound is returned when the record is not found.
-    ```
-
-    ```go
     var ErrNotFound = errors.New("not found")
     ```
 
@@ -128,9 +125,6 @@ Go 错误的一般建议包括以下内容：
 
     ```go
     return errors.New("user not found")
-    ```
-
-    ```go
     var errUserNotFound = errors.New("user not found")
     ```
 
@@ -140,13 +134,7 @@ Go 错误的一般建议包括以下内容：
 
     ```go
     if err != nil {
-    ```
-
-    ```go
         return fmt.Errorf("upload failed: %w", err)
-    ```
-
-    ```go
     }
     ```
 
@@ -154,13 +142,7 @@ Go 错误的一般建议包括以下内容：
 
     ```go
     if errors.Is(err, ErrNotFound) {
-    ```
-
-    ```go
         // err or some error it wraps is ErrNotFound.
-    ```
-
-    ```go
     }
     ```
 

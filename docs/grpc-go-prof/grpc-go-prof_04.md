@@ -364,21 +364,9 @@ go_library(
 
     ```go
     args := os.Args[1:]
-    ```
-
-    ```go
     if len(args) == 0 {
-    ```
-
-    ```go
       log.Fatalln("usage: server [IP_ADDR]")
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     addr := args[0]
     ```
 
@@ -386,41 +374,14 @@ go_library(
 
     ```go
     lis, err := net.Listen("tcp", addr)
-    ```
-
-    ```go
     if err != nil {
-    ```
-
-    ```go
       log.Fatalf("failed to listen: %v\n", err)
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     defer func(lis net.Listener) {
-    ```
-
-    ```go
       if err := lis.Close(); err != nil {
-    ```
-
-    ```go
         log.Fatalf("unexpected error: %v", err)
-    ```
-
-    ```go
       }
-    ```
-
-    ```go
     }(lis)
-    ```
-
-    ```go
     log.Printf("listening at %s\n", addr)
     ```
 
@@ -428,29 +389,11 @@ go_library(
 
     ```go
     opts := []grpc.ServerOption{}
-    ```
-
-    ```go
     s := grpc.NewServer(opts...)
-    ```
-
-    ```go
     //registration of endpoints
-    ```
-
-    ```go
     defer s.Stop()
-    ```
-
-    ```go
     if err := s.Serve(lis); err != nil {
-    ```
-
-    ```go
       log.Fatalf("failed to serve: %v\n", err)
-    ```
-
-    ```go
     }
     ```
 

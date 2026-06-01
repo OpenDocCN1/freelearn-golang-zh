@@ -374,21 +374,9 @@ type MyFlow struct {
 
     ```go
     type Heap []*MyFlow
-    ```
-
-    ```go
     type topTalker struct {
-    ```
-
-    ```go
          flowMap map[string]*MyFlow
-    ```
-
-    ```go
          heap    Heap
-    ```
-
-    ```go
     }
     ```
 
@@ -570,41 +558,14 @@ func TestHeap(t *testing.T) {
 
     ```go
     type testFlow struct {
-    ```
-
-    ```go
          startCount   int
-    ```
-
-    ```go
          timesSeen    int
-    ```
-
-    ```go
          wantPosition int
-    ```
-
-    ```go
          wantCount    int
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     type testCase struct {
-    ```
-
-    ```go
          name  string
-    ```
-
-    ```go
          flows map[string]testFlow
-    ```
-
-    ```go
     }
     ```
 

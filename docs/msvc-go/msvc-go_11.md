@@ -118,9 +118,6 @@ log.Printf("Starting the metadata service on port %d", port)
 
     ```go
     2022/11/10 23:00:00 network unavailable
-    ```
-
-    ```go
     panic: network unavailable
     ```
 
@@ -392,25 +389,10 @@ logger.Infof("User successfully registered", zap.String("userId", userID))
 
     ```go
     package logging
-    ```
-
-    ```go
     const (
-    ```
-
-    ```go
       FieldService  = "service"
-    ```
-
-    ```go
       FieldEndpoint = "endpoint"
-    ```
-
-    ```go
     ...
-    ```
-
-    ```go
     )
     ```
 
@@ -418,21 +400,9 @@ logger.Infof("User successfully registered", zap.String("userId", userID))
 
     ```go
     func (h *Handler) PutRating(ctx context.Context, req *PutRatingRequest) (*PutRatingResponse, error) {
-    ```
-
-    ```go
         logger := h.logger.With(logging.FieldEndpoint, "putRating")
-    ```
-
-    ```go
         // Now we can make sure the endpoint field is set across all handler logic.
-    ```
-
-    ```go
     ...
-    ```
-
-    ```go
     }
     ```
 
@@ -440,17 +410,8 @@ logger.Infof("User successfully registered", zap.String("userId", userID))
 
     ```go
     func main() {
-    ```
-
-    ```go
         logger, _ := zap.NewProduction()
-    ```
-
-    ```go
         logger = logger.With(logging.FieldService, "rating")
-    ```
-
-    ```go
         // Pass the initialized logger to all service components.
     ```
 
@@ -911,45 +872,15 @@ func ProcessRequest(ctx context.Context, ...) {
 
     ```go
     package main
-    ```
-
-    ```go
     type config struct {
-    ```
-
-    ```go
         API    apiConfig    `yaml:"api"`
-    ```
-
-    ```go
         Jaeger jaegerConfig `yaml:"jaeger"`
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     type apiConfig struct {
-    ```
-
-    ```go
         Port int `yaml:"port"`
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     type jaegerConfig struct {
-    ```
-
-    ```go
         URL string `yaml:"url"`
-    ```
-
-    ```go
     }
     ```
 
@@ -959,9 +890,6 @@ func ProcessRequest(ctx context.Context, ...) {
 
     ```go
     jaeger:
-    ```
-
-    ```go
       url: http://localhost:14268/api/traces
     ```
 
@@ -969,89 +897,26 @@ func ProcessRequest(ctx context.Context, ...) {
 
     ```go
     package tracing
-    ```
-
-    ```go
     import (
-    ```
-
-    ```go
         "go.opentelemetry.io/otel/exporters/jaeger"
-    ```
-
-    ```go
         "go.opentelemetry.io/otel/sdk/resource"
-    ```
-
-    ```go
         tracesdk "go.opentelemetry.io/otel/sdk/trace"
-    ```
-
-    ```go
         semconv "go.opentelemetry.io/otel/semconv/v1.12.0"
-    ```
-
-    ```go
     )
-    ```
-
-    ```go
     // NewJaegerProvider returns a new jaeger-based tracing provider.
-    ```
-
-    ```go
     func NewJaegerProvider(url string, serviceName string) (*tracesdk.TracerProvider, error) {
-    ```
-
-    ```go
         exp, err := jaeger.New(jaeger.WithCollectorEndpoint(jaeger.WithEndpoint(url)))
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             return nil, err
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         tp := tracesdk.NewTracerProvider(
-    ```
-
-    ```go
             tracesdk.WithBatcher(exp),
-    ```
-
-    ```go
             tracesdk.WithResource(resource.NewWithAttributes(
-    ```
-
-    ```go
                 semconv.SchemaURL,
-    ```
-
-    ```go
                 semconv.ServiceNameKey.String(serviceName),
-    ```
-
-    ```go
             )),
-    ```
-
-    ```go
         )
-    ```
-
-    ```go
         return tp, nil
-    ```
-
-    ```go
     }
     ```
 
@@ -1061,45 +926,15 @@ func ProcessRequest(ctx context.Context, ...) {
 
     ```go
         tp, err := tracing.NewJaegerProvider(cfg.Jaeger.URL, serviceName)
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             log.Fatal(err)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         defer func() {
-    ```
-
-    ```go
             if err := tp.Shutdown(ctx); err != nil {
-    ```
-
-    ```go
                 log.Fatal(err)
-    ```
-
-    ```go
             }
-    ```
-
-    ```go
         }()
-    ```
-
-    ```go
         otel.SetTracerProvider(tp)
-    ```
-
-    ```go
         otel.SetTextMapPropagator(propagation.TraceContext{})
     ```
 
@@ -1109,85 +944,25 @@ func ProcessRequest(ctx context.Context, ...) {
 
     ```go
     package grpcutil
-    ```
-
-    ```go
     import (
-    ```
-
-    ```go
         "context"
-    ```
-
-    ```go
         "math/rand"
-    ```
-
-    ```go
         "go.opentelemetry.io/contrib/instrumentation/google.golang.org/grpc/otelgrpc"
-    ```
-
-    ```go
         "google.golang.org/grpc"
-    ```
-
-    ```go
         "google.golang.org/grpc/credentials/insecure"
-    ```
-
-    ```go
         "movieexample.com/pkg/discovery"
-    ```
-
-    ```go
     )
-    ```
-
-    ```go
     // ServiceConnection attempts to select a random service // instance and returns a gRPC connection to it.
-    ```
-
-    ```go
     func ServiceConnection(ctx context.Context, serviceName string, registry discovery.Registry) (*grpc.ClientConn, error) {
-    ```
-
-    ```go
         addrs, err := registry.ServiceAddresses(ctx, serviceName)
-    ```
-
-    ```go
         if err != nil {
-    ```
-
-    ```go
             return nil, err
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         return grpc.Dial(
-    ```
-
-    ```go
             addrs[rand.Intn(len(addrs))],
-    ```
-
-    ```go
             grpc.WithTransportCredentials(insecure.NewCredentials()),
-    ```
-
-    ```go
             grpc.WithUnaryInterceptor(otelgrpc.UnaryClientInterceptor()),
-    ```
-
-    ```go
         )
-    ```
-
-    ```go
     }
     ```
 
@@ -1215,53 +990,17 @@ func ProcessRequest(ctx context.Context, ...) {
 
     ```go
     docker run -d --name jaeger \
-    ```
-
-    ```go
       -e COLLECTOR_OTLP_ENABLED=true \
-    ```
-
-    ```go
       -p 6831:6831/udp \
-    ```
-
-    ```go
       -p 6832:6832/udp \
-    ```
-
-    ```go
       -p 5778:5778 \
-    ```
-
-    ```go
       -p 16686:16686 \
-    ```
-
-    ```go
       -p 4317:4317 \
-    ```
-
-    ```go
       -p 4318:4318 \
-    ```
-
-    ```go
       -p 14250:14250 \
-    ```
-
-    ```go
       -p 14268:14268 \
-    ```
-
-    ```go
       -p 14269:14269 \
-    ```
-
-    ```go
       -p 9411:9411 \
-    ```
-
-    ```go
       jaegertracing/all-in-one:1.37
     ```
 
@@ -1307,9 +1046,6 @@ Figure 11.7 – GetMovieDetails 端点调用的 Jaeger 跟踪视图
 
     ```go
     _, span := otel.Tracer(tracerID).Start(ctx, "Repository/Get")
-    ```
-
-    ```go
     defer span.End()
     ```
 
@@ -1317,9 +1053,6 @@ Figure 11.7 – GetMovieDetails 端点调用的 Jaeger 跟踪视图
 
     ```go
     _, span := otel.Tracer(tracerID).Start(ctx, "Repository/Put")
-    ```
-
-    ```go
     defer span.End()
     ```
 

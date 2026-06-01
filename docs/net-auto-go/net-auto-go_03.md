@@ -738,25 +738,10 @@ func main() {
 
     ```go
     func main() {
-    ```
-
-    ```go
         slice := []string{"r1", "r2", "r3"}
-    ```
-
-    ```go
         for i, v := range slice {
-    ```
-
-    ```go
             fmt.Printf("index %d: value: %s\n", i, v)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
     }
     ```
 
@@ -764,41 +749,14 @@ func main() {
 
     ```go
     func main() {
-    ```
-
-    ```go
         hashMap := map[int]string{
-    ```
-
-    ```go
             1: "r1",
-    ```
-
-    ```go
             2: "r2",
-    ```
-
-    ```go
             3: "r3",
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         for i, v := range hashMap {
-    ```
-
-    ```go
             fmt.Printf("key %d: value: %s\n", i, v)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
     }
     ```
 

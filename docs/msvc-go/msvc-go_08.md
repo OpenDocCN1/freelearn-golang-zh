@@ -95,9 +95,6 @@ kafka:
 
     ```go
     api:
-    ```
-
-    ```go
       port: 8081
     ```
 
@@ -105,29 +102,11 @@ kafka:
 
     ```go
     package main
-    ```
-
-    ```go
     type serviceConfig struct {
-    ```
-
-    ```go
       APIConfig apiConfig `yaml:"api"`
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     type apiConfig struct {
-    ```
-
-    ```go
       Port string `yaml:"port"`
-    ```
-
-    ```go
     }
     ```
 
@@ -135,9 +114,6 @@ kafka:
 
     ```go
     api:
-    ```
-
-    ```go
       port: 8081
     ```
 
@@ -145,41 +121,14 @@ kafka:
 
     ```go
     log.Println("Starting the movie metadata service")
-    ```
-
-    ```go
     f, err := os.Open("base.yaml")
-    ```
-
-    ```go
     if err != nil {
-    ```
-
-    ```go
         panic(err)
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     defer f.Close()
-    ```
-
-    ```go
     var cfg serviceConfig
-    ```
-
-    ```go
     if err := yaml.NewDecoder(f).Decode(&cfg); err != nil {
-    ```
-
-    ```go
         panic(err)
-    ```
-
-    ```go
     }
     ```
 
@@ -318,81 +267,24 @@ docker push <Your Docker username>/movie:1.0.0
 
     ```go
     apiVersion: apps/v1
-    ```
-
-    ```go
     kind: Deployment
-    ```
-
-    ```go
     metadata:
-    ```
-
-    ```go
       name: metadata
-    ```
-
-    ```go
     spec:
-    ```
-
-    ```go
       replicas: 2
-    ```
-
-    ```go
       selector:
-    ```
-
-    ```go
         matchLabels:
-    ```
-
-    ```go
           app: metadata
-    ```
-
-    ```go
       template:
-    ```
-
-    ```go
         metadata:
-    ```
-
-    ```go
           labels:
-    ```
-
-    ```go
             app: metadata
-    ```
-
-    ```go
         spec:
-    ```
-
-    ```go
           containers:
-    ```
-
-    ```go
           - name: metadata
-    ```
-
-    ```go
             image: microservices-with-go/metadata:1.0.0 
-    ```
-
-    ```go
             imagePullPolicy: IfNotPresent
-    ```
-
-    ```go
             ports:
-    ```
-
-    ```go
               - containerPort: 8081
     ```
 
@@ -410,81 +302,24 @@ docker push <Your Docker username>/movie:1.0.0
 
     ```go
     apiVersion: apps/v1
-    ```
-
-    ```go
     kind: Deployment
-    ```
-
-    ```go
     metadata:
-    ```
-
-    ```go
       name: rating
-    ```
-
-    ```go
     spec:
-    ```
-
-    ```go
       replicas: 2
-    ```
-
-    ```go
       selector:
-    ```
-
-    ```go
         matchLabels:
-    ```
-
-    ```go
           app: rating
-    ```
-
-    ```go
       template:
-    ```
-
-    ```go
         metadata:
-    ```
-
-    ```go
           labels:
-    ```
-
-    ```go
             app: rating
-    ```
-
-    ```go
         spec:
-    ```
-
-    ```go
           containers:
-    ```
-
-    ```go
           - name: rating
-    ```
-
-    ```go
             image: <Your Docker username>/rating:1.0.3
-    ```
-
-    ```go
             imagePullPolicy: IfNotPresent
-    ```
-
-    ```go
             ports:
-    ```
-
-    ```go
               - containerPort: 8082
     ```
 
@@ -494,81 +329,24 @@ docker push <Your Docker username>/movie:1.0.0
 
     ```go
     apiVersion: apps/v1
-    ```
-
-    ```go
     kind: Deployment
-    ```
-
-    ```go
     metadata:
-    ```
-
-    ```go
       name: movie
-    ```
-
-    ```go
     spec:
-    ```
-
-    ```go
       replicas: 2
-    ```
-
-    ```go
       selector:
-    ```
-
-    ```go
         matchLabels:
-    ```
-
-    ```go
           app: movie
-    ```
-
-    ```go
       template:
-    ```
-
-    ```go
         metadata:
-    ```
-
-    ```go
           labels:
-    ```
-
-    ```go
             app: movie
-    ```
-
-    ```go
         spec:
-    ```
-
-    ```go
           containers:
-    ```
-
-    ```go
           - name: movie
-    ```
-
-    ```go
             image: ashuiskov/movie:1.0.0
-    ```
-
-    ```go
             imagePullPolicy: IfNotPresent
-    ```
-
-    ```go
             ports:
-    ```
-
-    ```go
               - containerPort: 8083
     ```
 

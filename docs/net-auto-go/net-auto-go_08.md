@@ -434,121 +434,34 @@ func (m *Model) buildNetworkInstance(dev *api.Device) error {
 
     ```go
     func main() {
-    ```
-
-    ```go
         /* ... <continues from before (main) > ... */
-    ```
-
-    ```go
         v, err := ygot.ConstructIETFJSON(device, nil)
-    ```
-
-    ```go
         // check error
-    ```
-
-    ```go
         value, err := json.Marshal(RpcRequest{
-    ```
-
-    ```go
             Version: "2.0",
-    ```
-
-    ```go
             ID:      0,
-    ```
-
-    ```go
             Method:  "set",
-    ```
-
-    ```go
             Params: Params{
-    ```
-
-    ```go
                 Commands: []*Command{
-    ```
-
-    ```go
                     {
-    ```
-
-    ```go
                         Action: "update",
-    ```
-
-    ```go
                         Path:   "/",
-    ```
-
-    ```go
                         Value:  v,
-    ```
-
-    ```go
                     },
-    ```
-
-    ```go
                 },
-    ```
-
-    ```go
             },
-    ```
-
-    ```go
         })
-    ```
-
-    ```go
         // check error
-    ```
-
-    ```go
         req, err := http.NewRequest(
-    ```
-
-    ```go
             "POST",
-    ```
-
-    ```go
             hostname,
-    ```
-
-    ```go
             bytes.NewBuffer(value),
-    ```
-
-    ```go
         )
-    ```
-
-    ```go
         resp, err := client.Do(req)
-    ```
-
-    ```go
          // check error
-    ```
-
-    ```go
         defer resp.Body.Close()
-    ```
-
-    ```go
         if resp.StatusCode != http.StatusOK {
-    ```
-
-    ```go
             log.Printf("Status: %s", resp.Status)
-    ```
-
-    ```go
         }
     ```
 

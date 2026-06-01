@@ -324,17 +324,8 @@ func main() {
 
     ```go
         const limit = 100
-    ```
-
-    ```go
         const burst = 100
-    ```
-
-    ```go
         l := newLimiter(100, 100)
-    ```
-
-    ```go
         srv := grpc.NewServer(grpc.UnaryInterceptor(ratelimit.UnaryServerInterceptor(l)))
     ```
 
@@ -342,37 +333,13 @@ func main() {
 
     ```go
     type limiter struct {
-    ```
-
-    ```go
         l *rate.Limiter
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     func newLimiter(limit int, burst int) *limiter {
-    ```
-
-    ```go
         return &limiter{rate.NewLimiter(rate.Limit(limit), burst)}
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     func (l *limiter) Limit() bool {
-    ```
-
-    ```go
         return l.l.Allow()
-    ```
-
-    ```go
     }
     ```
 

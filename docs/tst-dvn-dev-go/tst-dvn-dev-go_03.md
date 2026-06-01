@@ -530,9 +530,6 @@ if err != nil {
 
     ```go
     assert.Equal(t, expected, actual)
-    ```
-
-    ```go
     assert.NotEqual(t, expected, actual)
     ```
 
@@ -540,9 +537,6 @@ if err != nil {
 
     ```go
     assert.Nil(t, actual)
-    ```
-
-    ```go
     assert.NotNil(t, actual)
     ```
 
@@ -550,9 +544,6 @@ if err != nil {
 
     ```go
     assert.Contains(t, collection, element)
-    ```
-
-    ```go
     assert.NotContains(t, collection, element)
     ```
 
@@ -560,9 +551,6 @@ if err != nil {
 
     ```go
     assert.Subset(t, list, subset)
-    ```
-
-    ```go
     assert.NotSubset(t, list, subset)
     ```
 

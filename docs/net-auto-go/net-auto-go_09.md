@@ -368,21 +368,9 @@ gNMI 客户端有多种选项来控制他们的遥测订阅。以下图显示了
 
     ```go
     enum SubscriptionMode {
-    ```
-
-    ```go
          TARGET_DEFINED = 0;
-    ```
-
-    ```go
          ON_CHANGE      = 1;
-    ```
-
-    ```go
          SAMPLE         = 2;
-    ```
-
-    ```go
     }
     ```
 
@@ -396,53 +384,17 @@ gNMI 客户端有多种选项来控制他们的遥测订阅。以下图显示了
 
     ```go
     message Notification {
-    ```
-
-    ```go
          int64 timestamp = 1;
-    ```
-
-    ```go
          Path prefix = 2;
-    ```
-
-    ```go
          string alias = 3;
-    ```
-
-    ```go
          repeated Update update = 4;
-    ```
-
-    ```go
          repeated Path delete = 5;
-    ```
-
-    ```go
          bool atomic = 6;
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     message Update {
-    ```
-
-    ```go
          Path path = 1;
-    ```
-
-    ```go
          TypedValue val = 3;
-    ```
-
-    ```go
          uint32 duplicates = 4;
-    ```
-
-    ```go
     }
     ```
 
@@ -494,57 +446,18 @@ gNMIc 可以作为网络设备和 **时间序列数据库**（**TSDB**）或消�
 
     ```go
     targets:
-    ```
-
-    ```go
      "clab-netgo-cvx:9339":
-    ```
-
-    ```go
         username: cumulus
-    ```
-
-    ```go
         password: cumulus
-    ```
-
-    ```go
     subscriptions:
-    ```
-
-    ```go
       counters:
-    ```
-
-    ```go
         target: netq
-    ```
-
-    ```go
         paths:
-    ```
-
-    ```go
           - /interfaces
-    ```
-
-    ```go
         updates-only: true
-    ```
-
-    ```go
     outputs:
-    ```
-
-    ```go
       prom-output:
-    ```
-
-    ```go
         type: prometheus
-    ```
-
-    ```go
         listen: ":9313"
     ```
 
@@ -552,21 +465,9 @@ gNMIc 可以作为网络设备和 **时间序列数据库**（**TSDB**）或消�
 
     ```go
     scrape_configs:
-    ```
-
-    ```go
       - job_name: 'event-trigger'
-    ```
-
-    ```go
         scrape_interval: 2s
-    ```
-
-    ```go
         static_configs:
-    ```
-
-    ```go
           - targets: ['clab-netgo-host-3:9313']
     ```
 
@@ -574,33 +475,12 @@ gNMIc 可以作为网络设备和 **时间序列数据库**（**TSDB**）或消�
 
     ```go
     rule_files:
-    ```
-
-    ```go
       - 'alert.rules'
-    ```
-
-    ```go
     alerting:
-    ```
-
-    ```go
       alertmanagers:
-    ```
-
-    ```go
       - scheme: http
-    ```
-
-    ```go
         static_configs:
-    ```
-
-    ```go
         - targets:
-    ```
-
-    ```go
           - "alertmanager:9093"
     ```
 
@@ -608,53 +488,17 @@ gNMIc 可以作为网络设备和 **时间序列数据库**（**TSDB**）或消�
 
     ```go
     groups:
-    ```
-
-    ```go
     - name: thebook
-    ```
-
-    ```go
       interval: 10s
-    ```
-
-    ```go
       rules:
-    ```
-
-    ```go
       - alert: HighLinkUtilization
-    ```
-
-    ```go
         expr: rate(interfaces_interface_state_counters_in_pkts[30s]) > 50
-    ```
-
-    ```go
         for: 0m
-    ```
-
-    ```go
         labels:
-    ```
-
-    ```go
           severity: warning
-    ```
-
-    ```go
         annotations:
-    ```
-
-    ```go
           summary: Transit link {{ $labels.interface_name }} is under high load
-    ```
-
-    ```go
           description: "Transit link {{ $labels.interface_name }} is under high load LABELS = {{ $labels }}"
-    ```
-
-    ```go
           value: '{{ $value }}'
     ```
 
@@ -662,33 +506,12 @@ gNMIc 可以作为网络设备和 **时间序列数据库**（**TSDB**）或消�
 
     ```go
     route:
-    ```
-
-    ```go
       receiver: 'event-manager'
-    ```
-
-    ```go
       group_wait: 5s
-    ```
-
-    ```go
       group_interval: 10s
-    ```
-
-    ```go
     receivers:
-    ```
-
-    ```go
       - name: 'event-manager'
-    ```
-
-    ```go
         webhook_configs:
-    ```
-
-    ```go
         - url: http://clab-netgo-host-2:10000/alert
     ```
 

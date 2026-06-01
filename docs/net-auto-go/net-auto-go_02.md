@@ -257,41 +257,14 @@ Go 提供了两种创建注释的方法：
 
     ```go
     // IsPrivate reports whether ip is a private address, according to
-    ```
-
-    ```go
     // RFC 1918 (IPv4 addresses) and RFC 4193 (IPv6 addresses).
-    ```
-
-    ```go
     func (ip IP) IsPrivate() bool {
-    ```
-
-    ```go
         if ip4 := ip.To4(); ip4 != nil {
-    ```
-
-    ```go
             return ip4[0] == 10 ||
-    ```
-
-    ```go
                 (ip4[0] == 172 && ip4[1]&0xf0 == 16) ||
-    ```
-
-    ```go
                 (ip4[0] == 192 && ip4[1] == 168)
-    ```
-
-    ```go
         }
-    ```
-
-    ```go
         return len(ip) == IPv6len && ip[0]&0xfe == 0xfc
-    ```
-
-    ```go
     }
     ```
 
@@ -299,33 +272,12 @@ Go 提供了两种创建注释的方法：
 
     ```go
     /*
-    ```
-
-    ```go
     Copyright 2014 The Kubernetes Authors.
-    ```
-
-    ```go
     Licensed under the Apache License, Version 2.0 (the "License");
-    ```
-
-    ```go
     ...
-    ```
-
-    ```go
     See the License for the specific language governing permissions and
-    ```
-
-    ```go
     limitations under the License.
-    ```
-
-    ```go
     */
-    ```
-
-    ```go
     package kubectl
     ```
 
@@ -612,29 +564,11 @@ $ ls -1hs go.*
 
     ```go
     hugo$ go mod why go.opencensus.io/internal
-    ```
-
-    ```go
     # go.opencensus.io/internal
-    ```
-
-    ```go
     github.com/gohugoio/hugo/deploy
-    ```
-
-    ```go
     gocloud.dev/blob
-    ```
-
-    ```go
     gocloud.dev/internal/oc
-    ```
-
-    ```go
     go.opencensus.io/trace
-    ```
-
-    ```go
     go.opencensus.io/internal
     ```
 

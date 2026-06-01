@@ -80,13 +80,7 @@ Go 中泛型的引入是一个备受争议和期待的功能。一些开发者�
 
     ```go
     func sumT any T {
-    ```
-
-    ```go
       // implementation
-    ```
-
-    ```go
     } 
     ```
 
@@ -94,13 +88,7 @@ Go 中泛型的引入是一个备受争议和期待的功能。一些开发者�
 
     ```go
     func sumT comparable T {
-    ```
-
-    ```go
       // implementation
-    ```
-
-    ```go
     } 
     ```
 
@@ -108,13 +96,7 @@ Go 中泛型的引入是一个备受争议和期待的功能。一些开发者�
 
     ```go
     func sumT int64 | float64 T {
-    ```
-
-    ```go
       // implementation
-    ```
-
-    ```go
     }
     ```
 
@@ -122,25 +104,10 @@ Go 中泛型的引入是一个备受争议和期待的功能。一些开发者�
 
     ```go
     type Number interface {
-    ```
-
-    ```go
       int64 | float64
-    ```
-
-    ```go
     }
-    ```
-
-    ```go
     func sumT Number T {
-    ```
-
-    ```go
       // implementation
-    ```
-
-    ```go
     }
     ```
 
@@ -148,13 +115,7 @@ Go 中泛型的引入是一个备受争议和期待的功能。一些开发者�
 
     ```go
     type Number interface {
-    ```
-
-    ```go
       ~int64 | ~float64
-    ```
-
-    ```go
     }
     ```
 
@@ -162,13 +123,7 @@ Go 中泛型的引入是一个备受争议和期待的功能。一些开发者�
 
     ```go
     func sumT constraints.Signed T {
-    ```
-
-    ```go
       // implementation 
-    ```
-
-    ```go
     }
     ```
 
