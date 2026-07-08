@@ -1,6 +1,6 @@
 # Go 微服务
 
-> 原文：[`zh.annas-archive.org/md5/6bc87551e0916c976b61d40a76013782`](https://zh.annas-archive.org/md5/6bc87551e0916c976b61d40a76013782)
+> 原文：[Microservices with Go : Building Scalable and Reliable Microservices with Go](https://zh.annas-archive.gl/md5/6bc87551e0916c976b61d40a76013782)
 > 
 > 译者：[飞龙](https://github.com/wizardforcel)
 > 

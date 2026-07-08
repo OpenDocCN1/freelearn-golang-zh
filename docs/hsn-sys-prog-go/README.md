@@ -1,6 +1,6 @@
 # Go 系统编程实用指南
 
-> 原文：[`zh.annas-archive.org/md5/62FC08F1461495F0676A88A03EA0ECBA`](https://zh.annas-archive.org/md5/62FC08F1461495F0676A88A03EA0ECBA)
+> 原文：[Hands-On System Programming with Go : Build Modern and Concurrent Applications for Unix and Linux Systems Using Golang](https://zh.annas-archive.gl/md5/62FC08F1461495F0676A88A03EA0ECBA)
 > 
 > 译者：[飞龙](https://github.com/wizardforcel)
 > 

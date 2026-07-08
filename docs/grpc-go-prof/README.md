@@ -1,6 +1,6 @@
 # Go GRPC 专家指南
 
-> 原文：[`zh.annas-archive.org/md5/7b33fb42279b9f88c91bdb41fd7ee9d5`](https://zh.annas-archive.org/md5/7b33fb42279b9f88c91bdb41fd7ee9d5)
+> 原文：[GRPC Go for Professionals : Implement, Test, and Deploy Production-grade Microservices](https://zh.annas-archive.gl/md5/7b33fb42279b9f88c91bdb41fd7ee9d5)
 > 
 > 译者：[飞龙](https://github.com/wizardforcel)
 > 

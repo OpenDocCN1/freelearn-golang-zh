@@ -1,6 +1,6 @@
 # Go 云原生编程
 
-> 原文：[`zh.annas-archive.org/md5/E4B340F53EAAF54B7D4EF0AD6F8B1333`](https://zh.annas-archive.org/md5/E4B340F53EAAF54B7D4EF0AD6F8B1333)
+> 原文：[Cloud native programming with Golang : develop microservice-based high performance web apps for the cloud with Go](https://zh.annas-archive.gl/md5/E4B340F53EAAF54B7D4EF0AD6F8B1333)
 > 
 > 译者：[飞龙](https://github.com/wizardforcel)
 > 

@@ -1,6 +1,6 @@
 # Go 依赖注入实用指南
 
-> 原文：[`zh.annas-archive.org/md5/87633C3DBA89BFAAFD7E5238CC73EA73`](https://zh.annas-archive.org/md5/87633C3DBA89BFAAFD7E5238CC73EA73)
+> 原文：[Hands-On Dependency Injection in Go : Develop Clean Go Code That Is Easier to Read, Maintain, and Test](https://zh.annas-archive.gl/md5/87633C3DBA89BFAAFD7E5238CC73EA73)
 > 
 > 译者：[飞龙](https://github.com/wizardforcel)
 > 
