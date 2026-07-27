@@ -35,6 +35,8 @@
 +   [Go 函数式编程学习手册](docs/lrn-fp-go/README.md)
 +   [Go 编程学习手册](docs/lrn-go-prog/README.md)
 +   [Go Web 开发学习手册](docs/lrn-go-webdev/README.md)
++   [DevOps Go 精通：使用 Go 构建、自动化和扩展云基础设施指南](docs/mastering-go-for-devops-master-building-automating-and-scali/README.md)
++   [Go 现代 REST API 开发：使用 Go 强大的标准库设计高性能、安全且可观测的 Web API](docs/modern-rest-api-development-in-go-design-performant-secure-a/README.md)
 +   [精通 Go 并发](docs/ms-cncr-go/README.md)
 +   [精通 Go 第四版](docs/ms-go-4e/README.md)
 +   [精通 Go Web 服务](docs/ms-go-websvc/README.md)
